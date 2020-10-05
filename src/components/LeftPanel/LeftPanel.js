@@ -99,6 +99,16 @@ const ResizeBar = () => {
           dispatch(actions.setLeftPanelWidth(clientX));
         }
         document.body.style.setProperty('--left-panel-width', `${clientX}px`);
+        let event;
+        if (typeof (Event) === 'function') {
+          event = new CustomEvent('splitterDragged', {
+            detail: clientX
+          });
+        } else {
+          event = document.createEvent('CustomEvent');
+          event.initCustomEvent('splitterDragged', true, true, clientX);
+        }
+        document.dispatchEvent(event);
       }
     }, 50);
 
